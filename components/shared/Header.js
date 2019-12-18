@@ -9,6 +9,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
+import { Link as NextLink } from '../../routes';
 
 const BsNavLink = props => {
   const { route, title } = props;
@@ -67,6 +68,10 @@ export default class Header extends React.Component {
               <NavItem className="port-navbar-item">
                 <BsNavLink route="/cv" title="Cv" />
               </NavItem>
+              <NextLink route="test" params={{ id: '2' }}>
+                Test 2
+              </NextLink>
+              <NextLink route="/test/5">Test 5</NextLink>
             </Nav>
           </Collapse>
         </Navbar>
