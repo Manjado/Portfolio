@@ -1,4 +1,5 @@
 import auth0 from 'auth0-js';
+import Cookies from 'js-cookie';
 
 class Auth0 {
   constructor() {
@@ -12,6 +13,8 @@ class Auth0 {
 
     this.login = this.login.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
+    this.logout = this.logout.bind(this);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
   }
 
   handleAuthentication() {
@@ -28,12 +31,40 @@ class Auth0 {
     });
   }
 
-  setSession() {
-    //save tokens!!
+  setSession(authResult) {
+    debugger;
+    // set time that the access token will expire
+    const expiresAt = JSON.stringify(
+      authResult.expiresIn * 1000 + new Date().getTime()
+    );
+
+    // localStorage.setItem('access_token', authResult.accessToken);
+    // localStorage.setItem('id_token', authResult.idToken);
+    // localStorage.setItem('expires_at', expiresAt);
+
+    Cookies.set('user', authResult.idTokenPayload);
+    Cookies.set('jwt', authResult.idToken);
+    Cookies.set('expiresAt', expiresAt);
   }
 
   login() {
     this.auth0.authorize();
+  }
+
+  logout() {
+    Cookies.remove('user');
+    Cookies.remove('jwt');
+    Cookies.remove('expiresAt');
+
+    this.auth0.logout({
+      returnTo: '',
+      clientID: 'VSrdZd7W3m1hn5Bp2JABIU6bn7Bul0IW'
+    });
+  }
+
+  isAuthenticated() {
+    const expiresAt = Cookies.getJSON('expiresAt');
+    return new Date().getTime() < expiresAt;
   }
 }
 
