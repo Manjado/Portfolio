@@ -14,13 +14,17 @@ class Auth0 {
     this.handleAuthentication = this.handleAuthentication.bind(this);
   }
 
-  handleAuthentication(success) {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-      } else if (err) {
-        console.error(err);
-      }
+  handleAuthentication() {
+    return new Promise((resolve, reject) => {
+      this.auth0.parseHash((err, authResult) => {
+        if (authResult && authResult.accessToken && authResult.idToken) {
+          this.setSession(authResult);
+          resolve();
+        } else if (err) {
+          reject();
+          console.error(err);
+        }
+      });
     });
   }
 
