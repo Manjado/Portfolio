@@ -90,12 +90,12 @@ export default class Header extends React.Component {
                 Test 2
               </NextLink>
               <NextLink route="/test/5">Test 5</NextLink> */}
-              {!auth0.isAuthenticated() && (
+              {!isAuthenticated && (
                 <NavItem className="port-navbar-item clickable">
                   <Login />
                 </NavItem>
               )}
-              {auth0.isAuthenticated() && (
+              {isAuthenticated && (
                 <NavItem className="port-navbar-item clickable">
                   <Logout />
                 </NavItem>
