@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f289d18e-d1b6-4126-929a-1ce94d8fa442" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/auth0.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/auth0.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,7 +55,7 @@
       <option name="presentableId" value="Default" />
       <updated>1576579485843</updated>
       <workItem from="1576579487317" duration="14000" />
-      <workItem from="1578076973813" duration="988000" />
+      <workItem from="1578076973813" duration="1517000" />
     </task>
     <servers />
   </component>
