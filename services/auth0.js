@@ -39,10 +39,6 @@ class Auth0 {
       authResult.expiresIn * 1000 + new Date().getTime()
     );
 
-    // localStorage.setItem('access_token', authResult.accessToken);
-    // localStorage.setItem('id_token', authResult.idToken);
-    // localStorage.setItem('expires_at', expiresAt);
-
     Cookies.set('user', authResult.idTokenPayload);
     Cookies.set('jwt', authResult.idToken);
     Cookies.set('expiresAt', expiresAt);
