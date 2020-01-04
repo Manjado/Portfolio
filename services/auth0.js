@@ -33,7 +33,6 @@ class Auth0 {
   }
 
   setSession(authResult) {
-    debugger;
     // set time that the access token will expire
     const expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
@@ -67,45 +66,43 @@ class Auth0 {
   }
 
 
-  verifyToken(token) {
+  async verifyToken(token) {
     if(token) {
-      const decodedToken = jwt.decode(token);
+      const decodedToken = jwt.decode(token, { complete: true });
+      if (!decodedToken) { return undefined };
       const jwks = await this.getJWKS();
       const jwk = jwks.keys[0];
+      
       // BUILD CERTIFICATE
       let cert = jwk.x5c[0];
       cert = cert.match(/.{1,64}/g).join('\n');
-      cert = `-----BEGIN CERTIFICATE-----\n${cert}-----END CERTIFICATE-----\n`
+      cert = `-----BEGIN CERTIFICATE-----\n${cert}\n-----END CERTIFICATE-----\n`
 
       if (jwk.kid === decodedToken.header.kid) {
         try {
-          const verifiedToken = jwt.verify();
+          const verifiedToken = jwt.verify(token, cert);
+          const expiresAt = verifiedToken.exp * 1000;
+
+          return (verifiedToken && new Date().getTime() < expiresAt) ? verifiedToken : undefined;
         } catch (err) {
           return undefined;
         }
        
       }
-
-
-
-      const expiresAt = decodedToken.exp * 1000;
-
-      return (decodedToken && new Date().getTime() < expiresAt) ? decodedToken : undefined;
     }
 
     return undefined
 
   }
 
-  clientAuth() {
-    //debugger
+  async clientAuth() {
     const token = Cookies.getJSON('jwt');
-    const verifiedToken = this.verifyToken(token);
+    const verifiedToken = await this.verifyToken(token);
 
     return verifiedToken;
   }
 
-  serverAuth(req) {
+  async serverAuth(req) {
     if (req.headers.cookie) {
       const tokenCookie = req.headers.cookie
         .split(';')
@@ -116,7 +113,7 @@ class Auth0 {
       }
 
       const token = tokenCookie.split('=')[1];
-      const verifiedToken = this.verifyToken(token);
+      const verifiedToken = await this.verifyToken(token);
 
       return verifiedToken;
     }
