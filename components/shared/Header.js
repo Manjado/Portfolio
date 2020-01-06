@@ -56,7 +56,6 @@ export default class Header extends React.Component {
 
   render() {
     const { isAuthenticated, user } = this.props;
-    debugger
 
     return (
       <div>
