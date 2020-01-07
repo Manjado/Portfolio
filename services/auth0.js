@@ -1,5 +1,7 @@
 import auth0 from 'auth0-js';
 import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
+import axios from 'axios';
 
 class Auth0 {
   constructor() {
@@ -14,7 +16,6 @@ class Auth0 {
     this.login = this.login.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.logout = this.logout.bind(this);
-    this.isAuthenticated = this.isAuthenticated.bind(this);
   }
 
   handleAuthentication() {
@@ -32,15 +33,11 @@ class Auth0 {
   }
 
   setSession(authResult) {
-    debugger;
     // set time that the access token will expire
     const expiresAt = JSON.stringify(
       authResult.expiresIn * 1000 + new Date().getTime()
     );
 
-    // localStorage.setItem('access_token', authResult.accessToken);
-    // localStorage.setItem('id_token', authResult.idToken);
-    // localStorage.setItem('expires_at', expiresAt);
 
     Cookies.set('user', authResult.idTokenPayload);
     Cookies.set('jwt', authResult.idToken);
@@ -49,6 +46,12 @@ class Auth0 {
 
   login() {
     this.auth0.authorize();
+  }
+
+  async getJWKS() {
+    const res = await axios.get('https://manjado.auth0.com/.well-known/jwks.json');
+    const jwks = res.data;
+    return jwks;
   }
 
   logout() {
@@ -62,29 +65,59 @@ class Auth0 {
     });
   }
 
-  isAuthenticated() {
-    const expiresAt = Cookies.getJSON('expiresAt');
-    return new Date().getTime() < expiresAt;
+
+  async verifyToken(token) {
+    if(token) {
+      const decodedToken = jwt.decode(token, { complete: true });
+      if (!decodedToken) { return undefined };
+      const jwks = await this.getJWKS();
+      const jwk = jwks.keys[0];
+      
+      // BUILD CERTIFICATE
+      let cert = jwk.x5c[0];
+      cert = cert.match(/.{1,64}/g).join('\n');
+      cert = `-----BEGIN CERTIFICATE-----\n${cert}\n-----END CERTIFICATE-----\n`
+
+      if (jwk.kid === decodedToken.header.kid) {
+        try {
+          const verifiedToken = jwt.verify(token, cert);
+          const expiresAt = verifiedToken.exp * 1000;
+
+          return (verifiedToken && new Date().getTime() < expiresAt) ? verifiedToken : undefined;
+        } catch (err) {
+          return undefined;
+        }
+       
+      }
+    }
+
+    return undefined
+
   }
 
-  clientAuth() {
-    return this.isAuthenticated();
+  async clientAuth() {
+    const token = Cookies.getJSON('jwt');
+    const verifiedToken = await this.verifyToken(token);
+
+    return verifiedToken;
   }
 
-  serverAuth(req) {
+  async serverAuth(req) {
     if (req.headers.cookie) {
-      const expirestAtCookie = req.headers.cookie
+      const tokenCookie = req.headers.cookie
         .split(';')
-        .find(c => c.trim().startsWith('expiresAt='));
+        .find(c => c.trim().startsWith('jwt='));
 
-      if (!expirestAtCookie) {
+      if (!tokenCookie) {
         return undefined;
       }
 
-      const expiresAt = expirestAtCookie.split('=')[1];
+      const token = tokenCookie.split('=')[1];
+      const verifiedToken = await this.verifyToken(token);
 
-      return new Date().getTime() < expiresAt;
+      return verifiedToken;
     }
+    return undefined;
   }
 }
 
