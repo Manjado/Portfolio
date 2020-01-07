@@ -1,15 +1,16 @@
-import React from 'react';
+ import React from 'react';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
 import withAuth from '../components/hoc/withAuth';
-import { getSecretData } from '../actions';
+import { getSecretData, getSecretDataServer } from '../actions';
 
 class Secret extends React.Component {
 
-  static getInitialProps() {
-    const superSecretValue = 'super secret value';
+  static async getInitialProps({req}) {
+    //const anotherSecretData = process.browser ? await getSecretData() : await getSecretDataServer(req);
+    const anotherSecretData = await getSecretData(req)
 
-    return { superSecretValue };
+    return { anotherSecretData };
   }
 
     // constructor(props) {
