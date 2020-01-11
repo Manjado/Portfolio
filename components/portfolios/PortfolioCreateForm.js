@@ -1,63 +1,42 @@
+// Render Prop
 import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-export default class PortfolioCreateForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { title: '', description: '', language: '' };
+const PortfolioCreateForm = () => (
+  <div>
+    <Formik
+      initialValues={{ email: '', password: '' }}
+      validate={values => {
+        const errors = {};
+        if (!values.email) {
+          errors.email = 'Required';
+        } else if (
+          !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+        ) {
+          errors.email = 'Invalid email address';
+        }
+        return errors;
+      }}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <Field type="email" name="email" />
+          <ErrorMessage name="email" component="div" />
+          <Field type="password" name="password" />
+          <ErrorMessage name="password" component="div" />
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
+  </div>
+);
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleChangeDescription = this.handleChangeDescription.bind(this);
-    this.handleChangeLanguage = this.handleChangeLanguage.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({ title: event.target.value });
-  }
-
-  handleChangeDescription(event) {
-    this.setState({ description: event.target.value });
-  }
-
-  handleChangeLanguage(event) {
-    console.log(event.target.value, 'select');
-    this.setState({ language: event.target.value });
-  }
-
-  handleSubmit(event) {
-    console.log(this.state);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            value={this.state.value}
-            onChange={this.handleChange}
-          />
-        </label>
-        <label>
-          Description:
-          <textarea
-            value={this.state.description}
-            onChange={this.handleChangeDescription}
-          />
-        </label>
-        <label>
-          Pick your favorite Programming Language
-          <select value={this.state.value} onChange={this.handleChangeLanguage}>
-            <option value="javascript">JavaScript</option>
-            <option value="php">PHP</option>
-            <option value="java">java</option>
-            <option value="c++">C++</option>
-          </select>
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
-}
+export default PortfolioCreateForm;
