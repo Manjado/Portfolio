@@ -23,7 +23,7 @@ class Index extends React.Component {
     const { isAuthenticated, user } = this.props.auth;
 
     return (
-      <BaseLayout className="cover" {...this.props.auth}>
+      <BaseLayout className="cover" {...this.props.auth} headerType="index">
         <div className="main-section">
           <div className="background-image">
             <img src="/static/images/background-index.png" />
@@ -54,12 +54,16 @@ class Index extends React.Component {
               <Col md="6" className="hero-welcome-wrapper">
                 <div className="hero-welcome-text">
                   <h1>
-                    { isAuthenticated && <span><b>{user.name}</b></span>}
+                    {isAuthenticated && (
+                      <span>
+                        <b>{user.name}</b>
+                      </span>
+                    )}
                     Welcome to the portfolio website of Michał Alchimowicz. Get
                     informed, collaborate and discover projects I was working on
                     through the years!
                   </h1>
-                </div> 
+                </div>
                 <Typed
                   loop
                   typeSpeed={60}
