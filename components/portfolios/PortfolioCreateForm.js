@@ -1,14 +1,23 @@
 // Render Prop
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Button, FormGroup, Label } from 'reactstrap';
+import PortInput from '../form/PortInput';
 
-const validateInputs = validate => {
+const validateInputs = values => {
+  console.log(values);
   const errors = {};
-  // if (!values.email) {
-  //   errors.email = 'Required';
-  // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-  //   errors.email = 'Invalid email address';
+
+  //Object.keys(values).forEach(key => {
+  // if (!values[key]) {
+  //   errors[key] = `Filed ${key} is required!`;
   // }
+
+  Object.entries(values).forEach(([key, values]) => {
+    if (!values) {
+      errors[key] = `Filed ${key} is required!`;
+    }
+  });
   return errors;
 };
 
@@ -36,48 +45,41 @@ const PortfolioCreateForm = () => (
     >
       {({ isSubmitting }) => (
         <Form>
-          <div>
-            <label>Title</label>
-            <Field type="text" name="title" />
-            <ErrorMessage name="title" component="div" />
-          </div>
-
-          <div>
-            <label>Company</label>
-            <Field type="text" name="company" />
-            <ErrorMessage name="company" component="div" />
-          </div>
-
-          <div>
-            <label>Location</label>
-            <Field type="text" name="location" />
-            <ErrorMessage name="location" component="div" />
-          </div>
-
-          <div>
-            <label>Position</label>
-            <Field type="text" name="position" />
-            <ErrorMessage name="position" component="div" />
-          </div>
-
-          <div>
-            <label>Description</label>
-            <Field type="textarea" name="description" component="textarea" />
-            <ErrorMessage name="description" component="div" />
-          </div>
-
-          <div>
-            <label>Start Date</label>
-            <Field type="text" name="startDate" />
+          <Field label="Title" type="text" name="title" component={PortInput} />
+          <Field
+            label="Company"
+            type="text"
+            name="company"
+            component={PortInput}
+          />
+          <Field
+            label="Location"
+            type="text"
+            name="location"
+            component={PortInput}
+          />
+          <Field
+            label="Position"
+            type="text"
+            name="position"
+            component={PortInput}
+          />
+          <Field
+            label="Description"
+            type="textarea"
+            name="description"
+            component={PortInput}
+          />
+          <FormGroup>
+            <Label>Start Date</Label>
+            <Field className="form-control" type="text" name="startDate" />
             <ErrorMessage name="startDate" component="div" />
-          </div>
-
-          <div>
-            <label>End Date</label>
-            <Field type="text" name="endDate" />
+          </FormGroup>
+          <FormGroup>
+            <Label>End Date</Label>
+            <Field className="form-control" type="text" name="endDate" />
             <ErrorMessage name="endDate" component="div" />
-          </div>
-
+          </FormGroup>
           <button type="submit" disabled={isSubmitting}>
             Create
           </button>
