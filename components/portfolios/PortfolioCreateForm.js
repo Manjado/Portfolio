@@ -15,6 +15,7 @@ const validateInputs = values => {
   // }
 
   Object.entries(values).forEach(([key, values]) => {
+    console.log(key, 'key', values, 'valu');
     if (!values) {
       errors[key] = `Filed ${key} is required!`;
     }
