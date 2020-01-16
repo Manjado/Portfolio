@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import { FormGroup, Label } from 'reactstrap';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { Form } from 'formik';
+// import { Form } from 'formik';
 import moment from 'moment';
 
 export default class PortDate extends React.Component {
@@ -24,8 +24,8 @@ export default class PortDate extends React.Component {
       dateValue: date
     });
 
-    setFieldValue(name, date, true);
     setFieldTouched(name, true, true);
+    setFieldValue(name, date, true);
   };
 
   render() {
