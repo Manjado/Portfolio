@@ -10,11 +10,8 @@ const validateInputs = values => {
   const errors = {};
 
   Object.entries(values).forEach(([key, value]) => {
-    console.log(key, values);
-    if (
-      !values[key] &&
-      (values[key] === 'startDate' || values[key] === 'endDate')
-    ) {
+    console.log(values, 'VALUES', key, 'KEY');
+    if (!values[key] && key !== 'endDate') {
       errors[key] = `Filed ${key} is required!`;
     }
   });
@@ -80,7 +77,12 @@ const PortfolioCreateForm = () => (
             component={PortInput}
           />
           <Field label="Start Date" name="startDate" component={PortDate} />
-          <Field label="End Date" name="endDate" component={PortDate} />
+          <Field
+            label="End Date"
+            name="endDate"
+            canBeDisabled={true}
+            component={PortDate}
+          />
           <button type="submit" disabled={isSubmitting}>
             Create
           </button>
