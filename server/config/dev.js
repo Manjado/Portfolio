@@ -1,4 +1,4 @@
 module.exports = {
-  DB_URI: 'mongodb+srv://Netanel:a1234567a@portfolio-netanel-dev-484e1.mongodb.net/portfolio-netanel-prod?retryWrites=true',
-  NAMESPACE: 'https://filipjerga.herokuapp.com'
-}
+  DB_URI:
+    'mongodb+srv://Test:testtest@cluster0-flk3y.mongodb.net/test?retryWrites=true&w=majority'
+};
