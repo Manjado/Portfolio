@@ -19,4 +19,18 @@ router.get(
   portfolioCtr.getPortfolios
 );
 
+router.patch(
+  '/:id',
+  authService.checkJWT,
+  authService.checkRole('siteOwner'),
+  portfolioCtr.updatePortfolio
+);
+
+router.delete(
+  '/:id',
+  authService.checkJWT,
+  authService.checkRole('siteOwner'),
+  portfolioCtr.deletePortfolio
+);
+
 module.exports = router;

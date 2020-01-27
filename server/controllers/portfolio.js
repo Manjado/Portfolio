@@ -23,3 +23,33 @@ exports.savePortfolio = (req, res) => {
     return res.json(createdPortfolio);
   });
 };
+
+exports.updatePortfolio = (req, res) => {
+  const portfolioId = req.params.id;
+  const portfolioData = req.body;
+
+  Portfolio.findById(portfolioId, (err, foundPortfolio) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    foundPortfolio.set(portfolioData);
+    foundPortfolio.save((err, savePortfolio) => {
+      if (err) {
+        return res.status(422).send(err);
+      }
+      return res.json(savePortfolio);
+    });
+  });
+};
+
+exports.deletePortfolio = (req, res) => {
+  const portfolioId = req.params.id;
+
+  Portfolio.deleteOne({ _id: portfolioId }, (err, deletePortfolio) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+    return res.json({ status: 'DELETED' });
+  });
+};
