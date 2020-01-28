@@ -5,10 +5,15 @@ import PortfolioCreateForm from '../components/portfolios/PortfolioCreateForm';
 import { Row, Col } from 'reactstrap';
 
 import withAuth from '../components/hoc/withAuth';
+import { createPortfolio } from '../actions';
 
 class PortfolioNew extends React.Component {
   savePortfolio = portfolioData => {
-    alert(JSON.stringify(portfolioData, null, 2));
+    createPortfolio(portfolioData)
+      .then(portfolio => {
+        console.log(portfolio);
+      })
+      .catch(err => console.log(err));
   };
 
   render() {

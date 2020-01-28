@@ -12,12 +12,7 @@ router.post(
   portfolioCtr.savePortfolio
 );
 
-router.get(
-  '',
-  authService.checkJWT,
-  authService.checkRole('siteOwner'),
-  portfolioCtr.getPortfolios
-);
+router.get('', portfolioCtr.getPortfolios);
 
 router.patch(
   '/:id',
