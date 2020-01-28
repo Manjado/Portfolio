@@ -15,6 +15,18 @@ const setAuthHeader = req => {
   }
 };
 
+const rejectPromis = resError => {
+  let error = {};
+  console.log(resError, 'resError');
+  if (resError && resError.response && resError.response.data) {
+    error = resError.response.data;
+  } else {
+    error = resError;
+  }
+
+  return Promise.reject(error);
+};
+
 export const getSecretData = async req => {
   const url = '/secret';
   return await axiosInstance
@@ -30,5 +42,6 @@ export const getPortfolios = async req => {
 export const createPortfolio = async portfolioData => {
   return await axiosInstance
     .post('/portfolios', portfolioData, setAuthHeader())
-    .then(respons => respons.data);
+    .then(respons => respons.data)
+    .catch(error => rejectPromis(error));
 };

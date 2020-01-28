@@ -8,15 +8,20 @@ import withAuth from '../components/hoc/withAuth';
 import { createPortfolio } from '../actions';
 
 class PortfolioNew extends React.Component {
+  state = {
+    error: undefined
+  };
+
   savePortfolio = portfolioData => {
     createPortfolio(portfolioData)
       .then(portfolio => {
-        console.log(portfolio);
+        this.setState({ error: undefined });
       })
-      .catch(err => console.log(err));
+      .catch(err => this.setState({ error: err.message }));
   };
 
   render() {
+    const { error } = this.state;
     return (
       <BaseLayout {...this.props.auth}>
         <BasePage
@@ -25,7 +30,10 @@ class PortfolioNew extends React.Component {
         >
           <Row>
             <Col md="6">
-              <PortfolioCreateForm onSubmit={this.savePortfolio} />
+              <PortfolioCreateForm
+                onSubmit={this.savePortfolio}
+                error={error}
+              />
             </Col>
           </Row>
         </BasePage>
