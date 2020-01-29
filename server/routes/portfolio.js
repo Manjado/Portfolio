@@ -14,6 +14,8 @@ router.post(
 
 router.get('', portfolioCtr.getPortfolios);
 
+router.get('/:id', portfolioCtr.getPortfolioById);
+
 router.patch(
   '/:id',
   authService.checkJWT,
