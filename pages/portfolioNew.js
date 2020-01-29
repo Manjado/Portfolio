@@ -4,20 +4,30 @@ import BasePage from '../components/BasePage';
 import PortfolioCreateForm from '../components/portfolios/PortfolioCreateForm';
 import { Row, Col } from 'reactstrap';
 
-import withAuth from '../components/hoc/withAuth';
 import { createPortfolio } from '../actions';
+
+import withAuth from '../components/hoc/withAuth';
+import { Router } from '../routes';
 
 class PortfolioNew extends React.Component {
   state = {
     error: undefined
   };
 
-  savePortfolio = portfolioData => {
+  savePortfolio = (portfolioData, { setSubmitting }) => {
+    setSubmitting(true);
+
     createPortfolio(portfolioData)
       .then(portfolio => {
+        setSubmitting(false);
         this.setState({ error: undefined });
+        Router.pushRoute('/portfolios');
       })
-      .catch(err => this.setState({ error: err.message }));
+      .catch(err => {
+        const error = err.message || 'Server Error!';
+        setSubmitting(false);
+        this.setState({ error: error });
+      });
   };
 
   render() {
