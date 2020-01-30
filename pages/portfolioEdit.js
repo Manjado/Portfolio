@@ -19,13 +19,15 @@ class PortfolioEdit extends React.Component {
       console.error(error);
     }
 
-    console.log(portfolio);
     return { portfolio };
   }
 
-  state = {
-    error: undefined
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: undefined
+    };
+  }
 
   savePortfolio = (portfolioData, { setSubmitting }) => {
     // setSubmitting(true);
@@ -44,17 +46,17 @@ class PortfolioEdit extends React.Component {
 
   render() {
     const { error } = this.state;
+    const { portfolio } = this.props;
+
     return (
       <BaseLayout {...this.props.auth}>
-        <BasePage
-          className="portfolio-create-page"
-          title="Create New Portfolio"
-        >
+        <BasePage className="portfolio-create-page" title="Edit Portfolio">
           <Row>
             <Col md="6">
               <PortfolioCreateForm
                 onSubmit={this.savePortfolio}
                 error={error}
+                initialValues={portfolio}
               />
             </Col>
           </Row>

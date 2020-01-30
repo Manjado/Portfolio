@@ -8,7 +8,8 @@ export default role => Component =>
   class withAuth extends React.Component {
     static async getInitialProps(args) {
       const pageProps =
-        (await Component.getInitialProps) && Component.getInitialProps(args);
+        (await Component.getInitialProps) &&
+        (await Component.getInitialProps(args));
 
       return { ...pageProps };
     }
@@ -17,7 +18,6 @@ export default role => Component =>
       const { isAuthenticated, user } = this.props.auth;
       const userRole = user && user[`${namespace}role`];
       let isAuthorized = false;
-
       if (role) {
         if (userRole && userRole === role) {
           isAuthorized = true;
