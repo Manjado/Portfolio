@@ -4,7 +4,7 @@ import BasePage from '../components/BasePage';
 import { Link, Router } from '../routes';
 
 
-import { getPortfolios } from '../actions';
+import { getPortfolios, deletePortfolio } from '../actions';
 
 import {
   Col,
@@ -28,6 +28,21 @@ class Portfolios extends React.Component {
     }
 
     return { portfolios };
+  }
+
+  displayDeleteWarning(portfolioId) {
+    const isConfirm = confirm('Are you sure you want to delete this portfolio?');
+  
+    if (isConfirm) {
+      this.deletePortfolio(portfolioId);
+    }
+  
+  }
+
+  deletePortfolio(portfolioId) {
+    deletePortfolio(portfolioId).then(() => {
+      Router.pushRoute('/portfolios');
+    }).catch(err => console.error(err));
   }
 
   renderPortfolios(portfolios) {
@@ -57,7 +72,7 @@ class Portfolios extends React.Component {
                   <div className="readMore"> 
                   {isAuthenticated && isSiteOwner && <Fragment>
                     <Button onClick={() => Router.pushRoute(`/portfolio/${portfolio._id}/edit`)} color="warning">Edit</Button>{' '}
-                    <Button color="danger">Delete</Button>
+                    <Button onClick={() => this.displayDeleteWarning(portfolio._id)}color="danger">Delete</Button>
                   </Fragment>}
                   </div>
                 </CardBody>
@@ -72,7 +87,6 @@ class Portfolios extends React.Component {
   render() {
     const { portfolios } = this.props;
     const { isAuthenticated, isSiteOwner } = this.props.auth;
-    console.log(this.props,'PROPS')
 
     return (
       <BaseLayout {...this.props.auth}>
