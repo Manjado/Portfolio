@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import BaseLayout from '../components/layouts/BaseLayout';
 import BasePage from '../components/BasePage';
-import { Link } from '../routes';
+import { Link, Router } from '../routes';
+
 
 import { getPortfolios } from '../actions';
 
@@ -12,7 +13,8 @@ import {
   CardHeader,
   CardBody,
   CardText,
-  CardTitle
+  CardTitle, 
+  Button
 } from 'reactstrap';
 
 class Portfolios extends React.Component {
@@ -29,6 +31,7 @@ class Portfolios extends React.Component {
   }
 
   renderPortfolios(portfolios) {
+    const { isAuthenticated, isSiteOwner } = this.props.auth;
     return portfolios.map((portfolio, index) => {
       return (
         // <li key={index}>
@@ -51,7 +54,12 @@ class Portfolios extends React.Component {
                   <CardText className="portfolio-card-text">
                     {portfolio.description}
                   </CardText>
-                  <div className="readMore"> </div>
+                  <div className="readMore"> 
+                  {isAuthenticated && isSiteOwner && <Fragment>
+                    <Button onClick={() => Router.pushRoute(`/portfolio/${portfolio._id}/edit`)} color="warning">Edit</Button>{' '}
+                    <Button color="danger">Delete</Button>
+                  </Fragment>}
+                  </div>
                 </CardBody>
               </Card>
             </span>
@@ -63,10 +71,13 @@ class Portfolios extends React.Component {
 
   render() {
     const { portfolios } = this.props;
+    const { isAuthenticated, isSiteOwner } = this.props.auth;
+    console.log(this.props,'PROPS')
 
     return (
       <BaseLayout {...this.props.auth}>
         <BasePage className="portfolio-page" title="Portfolios">
+          {isAuthenticated && isSiteOwner && <Button onClick={() =>  Router.pushRoute('/portfolioNew')} color="success" className="create-port-btn">Create Portfolio</Button>}
           <Row>{this.renderPortfolios(portfolios)}</Row>
         </BasePage>
       </BaseLayout>

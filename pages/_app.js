@@ -6,6 +6,8 @@ import auth0 from '../services/auth0';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/main.scss';
 
+const namespace = 'http://localhost:3000';
+
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
     let pageProps = {};
@@ -16,13 +18,15 @@ export default class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
+console.log(user, 'USER_1s')
+    const isSiteOwner = user && user[namespace + '/role'] === 'siteOwner';
 
     // let isAuthenticated = false;
     // if (user) {
     //   isAuthenticated = true;
     // }
 
-    const auth = { user, isAuthenticated: !!user };
+    const auth = { user, isAuthenticated: !!user, isSiteOwner };
 
     return { pageProps, auth };
   }
