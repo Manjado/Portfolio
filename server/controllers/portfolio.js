@@ -1,24 +1,28 @@
-const Portfolio = require('../models/portfolio');
+const Portfolio = require("../models/portfolio");
 
 exports.getPortfolios = (req, res) => {
-  Portfolio.find({}, (err, allPortfolios) => {
-    if (err) {
-      return res.status(422).send(err);
-    }
+  Portfolio.find({})
+    .sort({ startDate: 1 })
+    .exec((err, allPortfolios) => {
+      if (err) {
+        return res.status(422).send(err);
+      }
 
-    return res.json(allPortfolios);
-  });
+      return res.json(allPortfolios);
+    });
 };
 
 exports.getPortfolioById = (req, res) => {
   const portfolioId = req.params.id;
-  Portfolio.findById(portfolioId).select('-__v').exec((err, foundPortfolio) => {
-    if (err) {
-      return res.status(422).send(err);
-    }
+  Portfolio.findById(portfolioId)
+    .select("-__v")
+    .exec((err, foundPortfolio) => {
+      if (err) {
+        return res.status(422).send(err);
+      }
 
-    return res.json(foundPortfolio);
-  })
+      return res.json(foundPortfolio);
+    });
 };
 
 exports.savePortfolio = (req, res) => {
@@ -61,6 +65,6 @@ exports.deletePortfolio = (req, res) => {
     if (err) {
       return res.status(422).send(err);
     }
-    return res.json({ status: 'DELETED' });
+    return res.json({ status: "DELETED" });
   });
 };

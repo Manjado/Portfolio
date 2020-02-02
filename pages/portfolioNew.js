@@ -1,22 +1,23 @@
-import React from 'react';
-import BaseLayout from '../components/layouts/BaseLayout';
-import BasePage from '../components/BasePage';
-import PortfolioCreateForm from '../components/portfolios/PortfolioCreateForm';
-import { Row, Col } from 'reactstrap';
+import React from "react";
+import BaseLayout from "../components/layouts/BaseLayout";
+import BasePage from "../components/BasePage";
+import PortfolioCreateForm from "../components/portfolios/PortfolioCreateForm";
+import { Row, Col } from "reactstrap";
 
-import { createPortfolio } from '../actions';
+import { createPortfolio } from "../actions";
 
-import withAuth from '../components/hoc/withAuth';
-import { Router } from '../routes';
+import withAuth from "../components/hoc/withAuth";
+import { Router } from "../routes";
+import moment from "moment";
 
 const INITIAL_VALUES = {
-  title: '',
-  company: '',
-  location: '',
-  position: '',
-  description: '',
-  startDate: '',
-  endDate: ''
+  title: "",
+  company: "",
+  location: "",
+  position: "",
+  description: "",
+  startDate: moment(),
+  endDate: moment()
 };
 
 class PortfolioNew extends React.Component {
@@ -31,10 +32,10 @@ class PortfolioNew extends React.Component {
       .then(portfolio => {
         setSubmitting(false);
         this.setState({ error: undefined });
-        Router.pushRoute('/portfolios');
+        Router.pushRoute("/portfolios");
       })
       .catch(err => {
-        const error = err.message || 'Server Error!';
+        const error = err.message || "Server Error!";
         setSubmitting(false);
         this.setState({ error: error });
       });
@@ -63,4 +64,4 @@ class PortfolioNew extends React.Component {
   }
 }
 
-export default withAuth('siteOwner')(PortfolioNew);
+export default withAuth("siteOwner")(PortfolioNew);
