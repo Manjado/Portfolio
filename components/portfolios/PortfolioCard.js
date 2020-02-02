@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -10,34 +10,35 @@ import {
 
 import PortfolioCardDetail from "./PortfolioCardDetails";
 
-class PortfolioCard extends Component {
-  constructor(props) {
-    super(props);
-  }
+const PortfolioCard = props => {
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
 
-  render() {
-    const { portfolio, children } = this.props;
-    return (
-      <span>
-        <PortfolioCardDetail />
-        <Card className="portfolio-card">
-          <CardHeader className="portfolio-card-header">
-            {portfolio.position}
-          </CardHeader>
-          <CardBody>
-            <p className="portfolio-card-city"> {portfolio.location} </p>
-            <CardTitle className="portfolio-card-title">
-              {portfolio.title}
-            </CardTitle>
-            <CardText className="portfolio-card-text">
-              {portfolio.description}
-            </CardText>
-            <div className="readMore">{children}</div>
-          </CardBody>
-        </Card>
-      </span>
-    );
-  }
-}
+  const { portfolio, children } = props;
+  return (
+    <span onClick={toggle}>
+      <PortfolioCardDetail
+        modal={modal}
+        toggle={toggle}
+        portfolio={portfolio}
+      />
+      <Card className="portfolio-card">
+        <CardHeader className="portfolio-card-header">
+          {portfolio.position}
+        </CardHeader>
+        <CardBody>
+          <p className="portfolio-card-city"> {portfolio.location} </p>
+          <CardTitle className="portfolio-card-title">
+            {portfolio.title}
+          </CardTitle>
+          <CardText className="portfolio-card-text">
+            {portfolio.description}
+          </CardText>
+          <div className="readMore">{children}</div>
+        </CardBody>
+      </Card>
+    </span>
+  );
+};
 
 export default PortfolioCard;

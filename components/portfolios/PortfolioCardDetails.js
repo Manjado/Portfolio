@@ -1,33 +1,43 @@
 import React, { useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import moment from "moment";
 
 const PortfolioCardDetail = props => {
-  const { buttonLabel, className } = props;
-
-  const [modal, setModal] = useState(false);
-
-  const toggle = () => setModal(!modal);
+  const { className, portfolio, toggle, modal } = props;
 
   return (
     <div>
-      <Button color="danger" onClick={toggle}>
-        {buttonLabel}
-      </Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalHeader toggle={toggle}>{portfolio.title}</ModalHeader>
         <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          <p>
+            <b>Description: </b>
+            {portfolio.description}
+          </p>
+          <p>
+            <b>Company: </b>
+            {portfolio.company}
+          </p>
+          <p>
+            <b>Position: </b>
+            {portfolio.position}
+          </p>
+          <p>
+            <b>Location: </b>
+            {portfolio.location}
+          </p>
+          <p>
+            <b>Start Date: </b>
+            {moment(portfolio.startDate).format("MMMM YYYY")}
+          </p>
+          <p>
+            <b>End Date: </b>
+            {portfolio.endDate
+              ? moment(portfolio.endDate).format("MMMM YYYY")
+              : "Still work here!"}
+          </p>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={toggle}>
-            Do Something
-          </Button>{" "}
           <Button color="secondary" onClick={toggle}>
             Cancel
           </Button>
