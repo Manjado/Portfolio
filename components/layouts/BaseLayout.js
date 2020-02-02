@@ -1,5 +1,6 @@
-import React from 'react';
-import Header from '../shared/Header';
+import React, { Fragment } from "react";
+import Header from "../shared/Header";
+import Head from "next/head";
 
 const BaseLayout = props => {
   const {
@@ -7,22 +8,32 @@ const BaseLayout = props => {
     children,
     isAuthenticated,
     user,
-    headerType = 'default'
+    headerType = "default"
   } = props;
 
   return (
-    <div className="layout-container">
-      {
-        <Header
-          className={`port-nav-${headerType}`}
-          isAuthenticated={isAuthenticated}
-          user={user}
+    <Fragment>
+      <Head>
+        <title>Michał Alchimowicz</title>
+        <link
+          rel="stylesheet"
+          href="//use.fontawesome.com/releases/v5.0.7/css/all.css"
+          crossOrigin="anonymus"
         />
-      }
-      <main className={`cover ${className}`}>
-        <div className="wrapper">{children}</div>
-      </main>
-    </div>
+      </Head>
+      <div className="layout-container">
+        {
+          <Header
+            className={`port-nav-${headerType}`}
+            isAuthenticated={isAuthenticated}
+            user={user}
+          />
+        }
+        <main className={`cover ${className}`}>
+          <div className="wrapper">{children}</div>
+        </main>
+      </div>
+    </Fragment>
   );
 };
 
