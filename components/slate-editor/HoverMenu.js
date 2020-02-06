@@ -2,70 +2,14 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Slate, Editable, ReactEditor, withReact, useSlate } from "slate-react";
 import { Editor, Transforms, Text, createEditor } from "slate";
 import { css } from "emotion";
-import { withHistory } from "slate-history";
+// import { withHistory } from "slate-history";
 
-import { Button, Icon, Menu, Portal } from "../components";
+import { Button, Icon, Menu, Portal } from "./components";
 import { Range } from "slate";
 
-const HoveringMenuExample = () => {
-  const [value, setValue] = useState(initialValue);
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+import { FormatButton } from "./renderes";
 
-  return (
-    <Slate editor={editor} value={value} onChange={value => setValue(value)}>
-      <HoveringToolbar />
-      <Editable
-        renderLeaf={props => <Leaf {...props} />}
-        placeholder="Enter some text..."
-        onDOMBeforeInput={event => {
-          switch (event.inputType) {
-            case "formatBold":
-              return toggleFormat(editor, "bold");
-            case "formatItalic":
-              return toggleFormat(editor, "italic");
-            case "formatUnderline":
-              return toggleFormat(editor, "underline");
-          }
-        }}
-      />
-    </Slate>
-  );
-};
-
-const toggleFormat = (editor, format) => {
-  const isActive = isFormatActive(editor, format);
-  Transforms.setNodes(
-    editor,
-    { [format]: isActive ? null : true },
-    { match: Text.isText, split: true }
-  );
-};
-
-const isFormatActive = (editor, format) => {
-  const [match] = Editor.nodes(editor, {
-    match: n => n[format] === true,
-    mode: "all"
-  });
-  return !!match;
-};
-
-const Leaf = ({ attributes, children, leaf }) => {
-  if (leaf.bold) {
-    children = <strong>{children}</strong>;
-  }
-
-  if (leaf.italic) {
-    children = <em>{children}</em>;
-  }
-
-  if (leaf.underlined) {
-    children = <u>{children}</u>;
-  }
-
-  return <span {...attributes}>{children}</span>;
-};
-
-const HoveringToolbar = () => {
+const HoverMenu = () => {
   const ref = useRef();
   const editor = useSlate();
 
@@ -123,22 +67,6 @@ const HoveringToolbar = () => {
   );
 };
 
-const FormatButton = ({ format, icon }) => {
-  const editor = useSlate();
-  return (
-    <Button
-      reversed
-      active={isFormatActive(editor, format)}
-      onMouseDown={event => {
-        event.preventDefault();
-        toggleFormat(editor, format);
-      }}
-    >
-      <Icon>{icon}</Icon>
-    </Button>
-  );
-};
-
 const initialValue = [
   {
     children: [
@@ -161,4 +89,4 @@ const initialValue = [
   }
 ];
 
-export default HoveringMenuExample;
+export default HoverMenu;

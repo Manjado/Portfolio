@@ -6,6 +6,10 @@ import { createEditor, Editor, Transforms, Text } from "slate";
 // Import the Slate components and React plugin.
 import { Slate, Editable, withReact } from "slate-react";
 
+import { withHistory } from "slate-history";
+
+import HoverMenu from "./HoverMenu";
+
 // Define a React component renderer for our code blocks.
 const CodeElement = props => {
   return (
@@ -31,7 +35,7 @@ const Leaf = props => {
 };
 
 const SlateEditor = () => {
-  const editor = useMemo(() => withReact(createEditor()), []);
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   // Add the initial value when setting up our state.
   const [value, setValue] = useState([
     {
@@ -39,6 +43,11 @@ const SlateEditor = () => {
       children: [{ text: "A line of text in a paragraph." }]
     }
   ]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const renderElement = useCallback(props => {
     switch (props.element.type) {
@@ -93,6 +102,7 @@ const SlateEditor = () => {
 
   return (
     <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+      {!loading && <HoverMenu />}
       <Editable
         renderElement={renderElement}
         // Pass in the `renderLeaf` function.
