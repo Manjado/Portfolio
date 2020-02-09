@@ -10,12 +10,14 @@ import { withHistory } from "slate-history";
 
 import HoverMenu from "./HoverMenu";
 import initialValue from "./initial-value";
+import { Element } from "./renderes";
 
 const SlateEditor = () => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   // Add the initial value when setting up our state.
   const [value, setValue] = useState(initialValue);
   const [loading, setLoading] = useState(true);
+  const renderElement = useCallback(props => <Element {...props} />, []);
 
   useEffect(() => {
     setLoading(false);
@@ -58,6 +60,7 @@ const SlateEditor = () => {
     <Slate editor={editor} value={value} onChange={value => setValue(value)}>
       {!loading && <HoverMenu />}
       <Editable
+        renderElement={renderElement}
         renderLeaf={props => <Leaf {...props} />}
         placeholder="Enter some text..."
         onDOMBeforeInput={event => {

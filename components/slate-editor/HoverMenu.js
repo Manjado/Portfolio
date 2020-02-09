@@ -7,7 +7,7 @@ import { css } from "emotion";
 import { Button, Icon, Menu, Portal } from "./components";
 import { Range } from "slate";
 
-import { FormatButton } from "./renderes";
+import { FormatButton, BlockButton } from "./renderes";
 
 const HoverMenu = () => {
   const ref = useRef();
@@ -62,6 +62,11 @@ const HoverMenu = () => {
         <FormatButton format="bold" icon="format_bold" />
         <FormatButton format="italic" icon="format_italic" />
         <FormatButton format="underlined" icon="format_underlined" />
+        <BlockButton format="heading-one" icon="looks_one" />
+        <BlockButton format="heading-two" icon="looks_two" />
+        <BlockButton format="block-quote" icon="format_quote" />
+        <BlockButton format="numbered-list" icon="format_list_numbered" />
+        <BlockButton format="bulleted-list" icon="format_list_bulleted" />
       </Menu>
     </Portal>
   );
