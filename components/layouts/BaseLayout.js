@@ -20,6 +20,10 @@ const BaseLayout = props => {
           href="//use.fontawesome.com/releases/v5.0.7/css/all.css"
           crossOrigin="anonymus"
         />
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
+        ></link>
       </Head>
       <div className="layout-container">
         {

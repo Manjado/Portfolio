@@ -9,106 +9,67 @@ import { Slate, Editable, withReact } from "slate-react";
 import { withHistory } from "slate-history";
 
 import HoverMenu from "./HoverMenu";
-
-// Define a React component renderer for our code blocks.
-const CodeElement = props => {
-  return (
-    <pre {...props.attributes}>
-      <code>{props.children}</code>
-    </pre>
-  );
-};
-
-const DefaultElement = props => {
-  return <b {...props.attributes}>{props.children}</b>;
-};
-
-const Leaf = props => {
-  return (
-    <span
-      {...props.attributes}
-      style={{ fontWeight: props.leaf.bold ? "bold" : "normal" }}
-    >
-      {props.children}
-    </span>
-  );
-};
+import initialValue from "./initial-value";
 
 const SlateEditor = () => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   // Add the initial value when setting up our state.
-  const [value, setValue] = useState([
-    {
-      type: "paragraph",
-      children: [{ text: "A line of text in a paragraph." }]
-    }
-  ]);
+  const [value, setValue] = useState(initialValue);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(false);
   }, []);
 
-  const renderElement = useCallback(props => {
-    switch (props.element.type) {
-      case "code":
-        return <CodeElement {...props} />;
-      default:
-        return <DefaultElement {...props} />;
-    }
-  }, []);
-
-  const onKeyDown = event => {
-    if (!event.ctrlKey) {
-      return;
+  const Leaf = ({ attributes, children, leaf }) => {
+    if (leaf.bold) {
+      children = <strong>{children}</strong>;
     }
 
-    switch (event.key) {
-      // When "`" is pressed, keep our existing code block logic.
-      case "x": {
-        event.preventDefault();
-        const [match] = Editor.nodes(editor, {
-          match: n => n.type === "code"
-        });
-        Transforms.setNodes(
-          editor,
-          { type: match ? "paragraph" : "code" },
-          { match: n => Editor.isBlock(editor, n) }
-        );
-        break;
-      }
-
-      // When "B" is pressed, bold the text in the selection.
-      case "b": {
-        event.preventDefault();
-        const [match] = Editor.nodes(editor, {
-          match: n => n.bold === true
-        });
-        Transforms.setNodes(
-          editor,
-          { bold: !match },
-          // Apply it to text nodes, and split the text node up if the
-          // selection is overlapping only part of it.
-          { match: n => Text.isText(n), split: true }
-        );
-        break;
-      }
+    if (leaf.italic) {
+      children = <em>{children}</em>;
     }
+
+    if (leaf.underlined) {
+      children = <u>{children}</u>;
+    }
+
+    return <span {...attributes}>{children}</span>;
   };
 
-  const renderLeaf = useCallback(props => {
-    return <Leaf {...props} />;
-  }, []);
+  const toggleFormat = (editor, format) => {
+    const isActive = isFormatActive(editor, format);
+    Transforms.setNodes(
+      editor,
+      { [format]: isActive ? null : true },
+      { match: Text.isText, split: true }
+    );
+  };
+
+  const isFormatActive = (editor, format) => {
+    const [match] = Editor.nodes(editor, {
+      match: n => n[format] === true,
+      mode: "all"
+    });
+    return !!match;
+  };
 
   return (
     <Slate editor={editor} value={value} onChange={value => setValue(value)}>
       {!loading && <HoverMenu />}
       <Editable
-        renderElement={renderElement}
-        // Pass in the `renderLeaf` function.
-        renderLeaf={renderLeaf}
-        // Define a new handler which prints the key that was pressed.
-        onKeyDown={onKeyDown}
+        renderLeaf={props => <Leaf {...props} />}
+        placeholder="Enter some text..."
+        onDOMBeforeInput={event => {
+          switch (event.inputType) {
+            case "formatBold":
+              return toggleFormat(editor, "bold");
+            case "formatItalic":
+              return toggleFormat(editor, "italic");
+            case "formatUnderline":
+              return toggleFormat(editor, "underline");
+          }
+        }}
       />
     </Slate>
   );
