@@ -1,13 +1,13 @@
-import React from "react";
-import { useSlate } from "slate-react";
-import { Editor, Transforms, Text } from "slate";
+import React from 'react';
+import { useSlate } from 'slate-react';
+import { Editor, Transforms, Text } from 'slate';
 
-import { Button, Icon } from "../components";
+import { Button, Icon } from '../components';
 
 const isFormatActive = (editor, format) => {
   const [match] = Editor.nodes(editor, {
     match: n => n[format] === true,
-    mode: "all"
+    mode: 'all'
   });
   return !!match;
 };
@@ -42,6 +42,7 @@ export const BlockButton = ({ format, icon }) => {
   return (
     <Button
       active={isBlockActive(editor, format)}
+      reversed
       onMouseDown={event => {
         event.preventDefault();
         toggleBlock(editor, format);
@@ -70,7 +71,7 @@ const toggleBlock = (editor, format) => {
   });
 
   Transforms.setNodes(editor, {
-    type: isActive ? "paragraph" : isList ? "list-item" : format
+    type: isActive ? 'paragraph' : isList ? 'list-item' : format
   });
 
   if (!isActive && isList) {
@@ -81,21 +82,21 @@ const toggleBlock = (editor, format) => {
 
 export const Element = ({ attributes, children, element }) => {
   switch (element.type) {
-    case "block-quote":
+    case 'block-quote':
       return <blockquote {...attributes}>{children}</blockquote>;
-    case "bulleted-list":
+    case 'bulleted-list':
       return <ul {...attributes}>{children}</ul>;
-    case "heading-one":
+    case 'heading-one':
       return <h1 {...attributes}>{children}</h1>;
-    case "heading-two":
+    case 'heading-two':
       return <h2 {...attributes}>{children}</h2>;
-    case "list-item":
+    case 'list-item':
       return <li {...attributes}>{children}</li>;
-    case "numbered-list":
+    case 'numbered-list':
       return <ol {...attributes}>{children}</ol>;
     default:
       return <p {...attributes}>{children}</p>;
   }
 };
 
-const LIST_TYPES = ["numbered-list", "bulleted-list"];
+const LIST_TYPES = ['numbered-list', 'bulleted-list'];
