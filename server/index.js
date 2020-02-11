@@ -1,30 +1,31 @@
-const express = require('express');
-const next = require('next');
-const mongoose = require('mongoose');
-const routes = require('../routes');
+const express = require("express");
+const next = require("next");
+const mongoose = require("mongoose");
+const routes = require("../routes");
 
 // SERVICES
-const authService = require('./services/auth');
+const authService = require("./services/auth");
 
-const dev = process.env.NODE_ENV !== 'production';
+const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 //const handle = app.getRequestHandler();
 const handle = routes.getRequestHandler(app);
-const config = require('./config');
+const config = require("./config");
 
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
-const bookRoutes = require('./routes/book');
-const portfolioRuten = require('./routes/portfolio');
+const bookRoutes = require("./routes/book");
+const portfolioRuten = require("./routes/portfolio");
+const blogRoutes = require("./routes/blog");
 
 const secretData = [
   {
-    title: 'SecretData 1',
-    description: 'Plan how to build spaceship'
+    title: "SecretData 1",
+    description: "Plan how to build spaceship"
   },
   {
-    title: 'SecretData 2',
-    description: 'Plan how to build spaceship'
+    title: "SecretData 2",
+    description: "Plan how to build spaceship"
   }
 ];
 
@@ -32,7 +33,7 @@ mongoose
   .connect(config.DB_URI, {
     useNewUrlParser: true
   })
-  .then(() => console.log('Database connectet'))
+  .then(() => console.log("Database connectet"))
   .catch(err => console.error(err));
 
 // async () =>
@@ -42,37 +43,38 @@ app.prepare().then(() => {
   const server = express();
   server.use(bodyParser.json());
 
-  server.use('/api/v1/books', bookRoutes);
-  server.use('/api/v1/portfolios', portfolioRuten);
+  server.use("/api/v1/books", bookRoutes);
+  server.use("/api/v1/portfolios", portfolioRuten);
+  server.use("/api/v1/blogs", blogRoutes);
 
-  server.get('/api/v1/secret', authService.checkJWT, (req, res) => {
+  server.get("/api/v1/secret", authService.checkJWT, (req, res) => {
     return res.json(secretData);
   });
 
   server.get(
-    '/api/v1/onlysiteowner',
+    "/api/v1/onlysiteowner",
     authService.checkJWT,
-    authService.checkRole('siteOwner'),
+    authService.checkRole("siteOwner"),
     (req, res) => {
       return res.json(secretData);
     }
   );
 
-  server.get('*', (req, res) => {
+  server.get("*", (req, res) => {
     return handle(req, res);
   });
 
   server.use(function(err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
+    if (err.name === "UnauthorizedError") {
       res
         .status(401)
-        .send({ title: 'Unauthorized', detail: 'Unauthorized Access!' });
+        .send({ title: "Unauthorized", detail: "Unauthorized Access!" });
     }
   });
 
   server.use(handle).listen(3000, err => {
     if (err) throw err;
-    console.log('> Ready on http://localhost:3000');
+    console.log("> Ready on http://localhost:3000");
   });
 });
 // .catch((ex) => {
