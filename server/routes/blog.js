@@ -12,4 +12,6 @@ router.post(
   blogCtr.createBlog
 );
 
+router.get("/:id", blogCtr.getBlogById);
+
 module.exports = router;

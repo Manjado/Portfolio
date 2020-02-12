@@ -13,3 +13,14 @@ exports.createBlog = (req, res) => {
     return res.json(createdBlog);
   });
 };
+
+exports.getBlogById = (req, res) => {
+  const blogId = req.params.id;
+  Blog.findById(blogId, (err, foundBlog) => {
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    return res.json(foundBlog);
+  });
+};
