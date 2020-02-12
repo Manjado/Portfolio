@@ -13,7 +13,7 @@ import ControlMenu from "./ControllMenu";
 import initialValue from "./initial-value";
 import { Element } from "./renderes";
 
-const SlateEditor = () => {
+const SlateEditor = props => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   // Add the initial value when setting up our state.
   const [value, setValue] = useState(initialValue);
@@ -57,9 +57,23 @@ const SlateEditor = () => {
     return !!match;
   };
 
+  const getTitle = () => {
+    return {
+      title: "Some Title",
+      subtitle: "Some subtitle"
+    };
+  };
+
+  const save = () => {
+    const { save } = props;
+    const headingValues = getTitle();
+
+    save(headingValues);
+  };
+
   return (
     <Slate editor={editor} value={value} onChange={value => setValue(value)}>
-      <ControlMenu></ControlMenu>
+      <ControlMenu save={save}></ControlMenu>
       {!loading && <HoverMenu />}
       <Editable
         renderElement={renderElement}

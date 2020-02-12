@@ -5,7 +5,9 @@ const ControllMenu = props => {
     <div className="controll-menu">
       <h1 className="title">Write Your Story</h1>
       <div className="status-box">Saved</div>
-      <Button color="success">Save</Button>
+      <Button onClick={props.save} color="success">
+        Save
+      </Button>
     </div>
   );
 };

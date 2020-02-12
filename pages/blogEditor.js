@@ -4,11 +4,14 @@ import BasePage from "../components/BasePage";
 import withAuth from "../components/hoc/withAuth";
 import SlateEditor from "../components/slate-editor/Editor";
 class BlogEditor extends React.Component {
+  saveBlog = ({ title, subtitle }) => {
+    console.log(title, subtitle);
+  };
   render() {
     return (
       <BaseLayout {...this.props.auth}>
         <BasePage containerClass="editor-wrapper" className="blog-editor-page">
-          <SlateEditor />
+          <SlateEditor save={this.saveBlog} />
         </BasePage>
       </BaseLayout>
     );
