@@ -9,6 +9,7 @@ import { Slate, Editable, withReact } from "slate-react";
 import { withHistory } from "slate-history";
 
 import HoverMenu from "./HoverMenu";
+import ControlMenu from "./ControllMenu";
 import initialValue from "./initial-value";
 import { Element } from "./renderes";
 
@@ -58,6 +59,7 @@ const SlateEditor = () => {
 
   return (
     <Slate editor={editor} value={value} onChange={value => setValue(value)}>
+      <ControlMenu></ControlMenu>
       {!loading && <HoverMenu />}
       <Editable
         renderElement={renderElement}
