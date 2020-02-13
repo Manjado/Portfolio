@@ -58,9 +58,18 @@ const SlateEditor = props => {
   };
 
   const getTitle = () => {
+    const [firstBlock, secondBlock] = value;
+    const title =
+      firstBlock && firstBlock.type === "heading-one"
+        ? firstBlock.children[0].text
+        : "No title";
+    const subtitle =
+      secondBlock && secondBlock.type === "heading-two"
+        ? secondBlock.children[0].text
+        : "No subtitle";
     return {
-      title: "Some Title",
-      subtitle: "Some subtitle"
+      title,
+      subtitle
     };
   };
 

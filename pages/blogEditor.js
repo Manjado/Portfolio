@@ -5,6 +5,9 @@ import withAuth from "../components/hoc/withAuth";
 import SlateEditor from "../components/slate-editor/Editor";
 class BlogEditor extends React.Component {
   saveBlog = ({ title, subtitle }) => {
+    const blog = {};
+    blog.title = title;
+    blog.subtitle = subtitle;
     console.log(title, subtitle);
   };
   render() {
