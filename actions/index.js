@@ -1,14 +1,14 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import Cookies from "js-cookie";
 
-import { getCookieFromReq } from '../helpers/utils';
+import { getCookieFromReq } from "../helpers/utils";
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: "http://localhost:3000/api/v1",
   timeout: 3000
 });
 const setAuthHeader = req => {
-  const token = req ? getCookieFromReq(req, 'jwt') : Cookies.getJSON('jwt');
+  const token = req ? getCookieFromReq(req, "jwt") : Cookies.getJSON("jwt");
 
   if (token) {
     return { headers: { authorization: `Bearer ${token}` } };
@@ -17,7 +17,7 @@ const setAuthHeader = req => {
 
 const rejectPromis = resError => {
   let error = {};
-  console.log(resError, 'resError');
+  console.log(resError, "resError");
   if (resError && resError.response && resError.response.data) {
     error = resError.response.data;
   } else {
@@ -28,14 +28,14 @@ const rejectPromis = resError => {
 };
 
 export const getSecretData = async req => {
-  const url = '/secret';
+  const url = "/secret";
   return await axiosInstance
     .get(url, setAuthHeader(req))
     .then(respons => respons.data);
 };
 
 export const getPortfolios = async req => {
-  const url = '/portfolios';
+  const url = "/portfolios";
   return await axiosInstance.get(url).then(respons => respons.data);
 };
 
@@ -47,7 +47,7 @@ export const getPortfolioById = async id => {
 
 export const createPortfolio = async portfolioData => {
   return await axiosInstance
-    .post('/portfolios', portfolioData, setAuthHeader())
+    .post("/portfolios", portfolioData, setAuthHeader())
     .then(respons => respons.data)
     .catch(error => rejectPromis(error));
 };
@@ -59,6 +59,18 @@ export const updatePortfolio = async portfolioData => {
     .catch(error => rejectPromis(error));
 };
 
-export const deletePortfolio = (portfolioId) => {
-  return axiosInstance.delete(`/portfolios/${portfolioId}`, setAuthHeader()).then(response => response.data);
-}
+export const deletePortfolio = portfolioId => {
+  return axiosInstance
+    .delete(`/portfolios/${portfolioId}`, setAuthHeader())
+    .then(response => response.data);
+};
+
+// ------ BLOG ACTIONS -------
+
+export const saveBlog = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("promise resolved!!!");
+    }, 1000);
+  });
+};

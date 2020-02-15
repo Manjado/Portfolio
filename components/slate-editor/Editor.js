@@ -82,7 +82,7 @@ const SlateEditor = props => {
 
   return (
     <Slate editor={editor} value={value} onChange={value => setValue(value)}>
-      <ControlMenu save={save}></ControlMenu>
+      <ControlMenu save={save} isLoading={props.isLoading}></ControlMenu>
       {!loading && <HoverMenu />}
       <Editable
         renderElement={renderElement}
