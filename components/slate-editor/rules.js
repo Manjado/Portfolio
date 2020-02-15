@@ -3,11 +3,36 @@ import { jsx } from "slate-hyperscript";
 import { Node, Text } from "slate";
 
 export const serialize = node => {
+  // const m = {};
+  // let mm;
   if (Text.isText(node)) {
+    //const m = { text: escapeHtml(node.text), attr:  };
+
+    // if (node.text) {
+    //   Object.assign(m, node);
+    //   delete m.text;
+    // }
+
+    // console.log(node, "nodee", JSON.stringify(m).replace(/:/g, "="), "mmm");
+    // mm = JSON.stringify(m).replace(/:/g, "=");
+    const text = node.text;
+    console.log(node, "node");
+    // switch (node) {
+    //   case node.bold:
+    //     return console.log(node.bold, "efwwfewfw");
+    //   case "italic":
+    //     return <em>{children}</em>;
+    //   case "underline":
+    //     return <u>{children}</u>;
+    // }
+
+    if (node.bold) return `<strong>${escapeHtml(node.text)}</strong>`;
+
     return escapeHtml(node.text);
   }
-  console.log(node, "node");
+  //console.log(node, "node/-119");
   const children = node.children.map(n => serialize(n)).join("");
+  //const children = node.children.map(n => serialize(n));
   console.log(children, "children");
   switch (node.type) {
     case "block-quote":
@@ -59,8 +84,3 @@ export const deserialize = el => {
       return el.textContent;
   }
 };
-
-//style=${JSON.stringify(...node.children).replace(
-//     /:/g,
-//     "="
-//   )}

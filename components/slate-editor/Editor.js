@@ -78,7 +78,8 @@ const SlateEditor = props => {
   const save = () => {
     const { save } = props;
     const headingValues = getTitle();
-
+    const text = serialize({ children: value });
+    console.log(text);
     save(headingValues);
   };
 

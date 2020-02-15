@@ -39,6 +39,7 @@
     "reactstrap": "^6.5.0",
     "slate": "^0.57.1",
     "slate-history": "^0.57.1",
+    "slate-html-serializer": "^0.8.11",
     "slate-hyperscript": "^0.57.1",
     "slate-react": "^0.57.1"
   }
