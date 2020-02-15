@@ -2821,7 +2821,7 @@ es6-promise@^4.2.8:
   resolved "https://registry.yarnpkg.com/es6-promise/-/es6-promise-4.2.8.tgz#4eb21594c972bc40553d276e510539143db53e0a"
   integrity sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==
 
-escape-html@~1.0.3:
+escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
@@ -6667,6 +6667,13 @@ slate-history@^0.57.1:
   integrity sha512-pSUmGcIzFJ1ClaF2S5dFm7TBS30ZG3sqkwAowTxvD0+jafG/2I3N6M6M0anhkgBEGMU1rdNQqX4O6b/qKUJPgg==
   dependencies:
     immer "^5.0.0"
+    is-plain-object "^3.0.0"
+
+slate-hyperscript@^0.57.1:
+  version "0.57.1"
+  resolved "https://registry.yarnpkg.com/slate-hyperscript/-/slate-hyperscript-0.57.1.tgz#d72fdedb527672302bd32d4e6d96c96eac91bbac"
+  integrity sha512-2vA1kCl/DPuyWziSn8CnmjAnEgdNJvFmmGWwoabHBusBeWg0AS1pQpGsuR95r2tBQifF2pweRA0T/2T6nN/uHg==
+  dependencies:
     is-plain-object "^3.0.0"
 
 slate-react@^0.57.1:

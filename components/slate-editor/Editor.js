@@ -13,6 +13,8 @@ import ControlMenu from "./ControllMenu";
 import initialValue from "./initial-value";
 import { Element } from "./renderes";
 
+import { serialize } from "./rules";
+
 const SlateEditor = props => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   // Add the initial value when setting up our state.
