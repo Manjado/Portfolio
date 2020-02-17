@@ -27,6 +27,7 @@ const SlateEditor = props => {
   }, []);
 
   const Leaf = ({ attributes, children, leaf }) => {
+    console.log(leaf, "lll");
     if (leaf.bold) {
       children = <strong>{children}</strong>;
     }
@@ -79,8 +80,9 @@ const SlateEditor = props => {
     const { save } = props;
     const headingValues = getTitle();
     const text = serialize({ children: value });
-    console.log(text);
-    save(headingValues);
+    console.log(text, "text");
+    console.log("przed", text, headingValues);
+    save(text, headingValues);
   };
 
   return (

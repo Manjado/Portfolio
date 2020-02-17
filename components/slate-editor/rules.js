@@ -27,13 +27,15 @@ export const serialize = node => {
     // }
 
     if (node.bold) return `<strong>${escapeHtml(node.text)}</strong>`;
+    if (node.italic) return `<em>${escapeHtml(node.text)}</em>`;
+    if (node.underline) return `<u>${escapeHtml(node.text)}</u>`;
 
     return escapeHtml(node.text);
   }
   //console.log(node, "node/-119");
   const children = node.children.map(n => serialize(n)).join("");
   //const children = node.children.map(n => serialize(n));
-  console.log(children, "children");
+  console.log(children, "children", node.type, "type");
   switch (node.type) {
     case "block-quote":
       return `<blockquote><p>${children}</p></blockquote>`;
