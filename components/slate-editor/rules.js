@@ -16,7 +16,7 @@ export const serialize = node => {
     // console.log(node, "nodee", JSON.stringify(m).replace(/:/g, "="), "mmm");
     // mm = JSON.stringify(m).replace(/:/g, "=");
     const text = node.text;
-    console.log(node, "node");
+    //console.log(node, "node");
     // switch (node) {
     //   case node.bold:
     //     return console.log(node.bold, "efwwfewfw");
@@ -35,7 +35,7 @@ export const serialize = node => {
   //console.log(node, "node/-119");
   const children = node.children.map(n => serialize(n)).join("");
   //const children = node.children.map(n => serialize(n));
-  console.log(children, "children", node.type, "type");
+  //console.log(children, "children", node.type, "type");
   switch (node.type) {
     case "block-quote":
       return `<blockquote><p>${children}</p></blockquote>`;

@@ -77,12 +77,10 @@ const SlateEditor = props => {
   };
 
   const save = () => {
-    const { save } = props;
+    const { save, isLoading } = props;
     const headingValues = getTitle();
     const text = serialize({ children: value });
-    console.log(text, "text");
-    console.log("przed", text, headingValues);
-    save(text, headingValues);
+    !isLoading && save(text, headingValues);
   };
 
   return (

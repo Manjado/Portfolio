@@ -81,7 +81,6 @@ const toggleBlock = (editor, format) => {
 };
 
 export const Element = ({ attributes, children, element }) => {
-  console.log(element, "elem");
   switch (element.type) {
     case "block-quote":
       return <blockquote {...attributes}>{children}</blockquote>;
