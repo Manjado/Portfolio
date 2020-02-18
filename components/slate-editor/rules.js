@@ -59,6 +59,7 @@ export const serialize = node => {
 };
 
 export const deserialize = el => {
+  console.log(el.nodeType, "ELELEL");
   if (el.nodeType === 3) {
     return el.textContent;
   } else if (el.nodeType !== 1) {

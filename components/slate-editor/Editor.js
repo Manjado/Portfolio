@@ -13,12 +13,24 @@ import ControlMenu from "./ControllMenu";
 import initialValue from "./initial-value";
 import { Element } from "./renderes";
 
-import { serialize } from "./rules";
+import { serialize, deserialize } from "./rules";
 
 const SlateEditor = props => {
+  console.log(props, "PROPS");
+  let defaultValue = initialValue;
+
+  if (props.initialValue) {
+    const html = props.initialValue;
+    const document = new DOMParser().parseFromString(html, "text/html");
+    defaultValue = deserialize(document.body);
+    //TO DO https://www.npmjs.com/package/jsdom fragment()
+    //331
+  }
+  // const defaultValue = props.initialValue ? m : initialValue;
+  // console.log(defaultValue, "DEFFFFFF");
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   // Add the initial value when setting up our state.
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(defaultValue);
   const [loading, setLoading] = useState(true);
   const renderElement = useCallback(props => <Element {...props} />, []);
 
@@ -27,7 +39,7 @@ const SlateEditor = props => {
   }, []);
 
   const Leaf = ({ attributes, children, leaf }) => {
-    console.log(leaf, "lll");
+    // console.log(leaf, "lll");
     if (leaf.bold) {
       children = <strong>{children}</strong>;
     }

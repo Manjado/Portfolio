@@ -10,7 +10,7 @@ class BlogEditor extends React.Component {
     isSaving: false
   };
   saveBlog = (story, { title, subtitle }) => {
-    console.log(story, "STORY", title, "titile", subtitle, "sub");
+    //console.log(story, "STORY", title, "titile", subtitle, "sub");
     const blog = {};
     blog.title = title;
     blog.subTitle = subtitle;
@@ -20,7 +20,7 @@ class BlogEditor extends React.Component {
     createBlog(blog)
       .then(data => {
         this.setState({ isSaving: false });
-        console.log(data);
+        // console.log(data);
       })
       .catch(err => console.log(err || "server error"));
   };

@@ -8,12 +8,13 @@ import { getBlogbyId } from "../actions";
 class BlogEditor extends React.Component {
   static async getInitialProps({ query }) {
     const blogId = query.id;
+    let blog = {};
     try {
-      const blog = await getBlogbyId(blogId);
-      return { blog };
+      blog = await getBlogbyId(blogId);
     } catch (err) {
-      return { err };
+      console.error(err);
     }
+    return { blog };
   }
 
   state = {
@@ -28,6 +29,7 @@ class BlogEditor extends React.Component {
       <BaseLayout {...this.props.auth}>
         <BasePage containerClass="editor-wrapper" className="blog-editor-page">
           <SlateEditor
+            initialValue={blog.story}
             isLoading={isSaving}
             save={() => console.log("here should be update")}
           />
