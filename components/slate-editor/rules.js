@@ -59,7 +59,7 @@ export const serialize = node => {
 };
 
 export const deserialize = el => {
-  console.log(el.nodeType, "ELELEL");
+  console.log(el, "ELELEL");
   if (el.nodeType === 3) {
     return el.textContent;
   } else if (el.nodeType !== 1) {
@@ -67,7 +67,7 @@ export const deserialize = el => {
   }
 
   const children = Array.from(el.childNodes).map(deserialize);
-
+  console.log(el.nodeName, "el.nodeName");
   switch (el.nodeName) {
     case "BODY":
       return jsx("fragment", {}, children);
@@ -77,6 +77,8 @@ export const deserialize = el => {
       return jsx("element", { type: "quote" }, children);
     case "P":
       return jsx("element", { type: "paragraph" }, children);
+    case "H1":
+      return jsx("element", { type: "heading-one" }, children);
     case "A":
       return jsx(
         "element",

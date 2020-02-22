@@ -19,15 +19,15 @@ const SlateEditor = props => {
   console.log(props, "PROPS");
   let defaultValue = initialValue;
 
-  if (props.initialValue) {
+  if (props.initialValue && typeof window !== "undefined") {
     const html = props.initialValue;
+    console.log(html, "html");
     const document = new DOMParser().parseFromString(html, "text/html");
+    console.log(document, "DOK");
     defaultValue = deserialize(document.body);
-    //TO DO https://www.npmjs.com/package/jsdom fragment()
-    //331
+    console.log(defaultValue, "deserialize valuuu");
   }
-  // const defaultValue = props.initialValue ? m : initialValue;
-  // console.log(defaultValue, "DEFFFFFF");
+
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   // Add the initial value when setting up our state.
   const [value, setValue] = useState(defaultValue);
@@ -39,7 +39,7 @@ const SlateEditor = props => {
   }, []);
 
   const Leaf = ({ attributes, children, leaf }) => {
-    // console.log(leaf, "lll");
+    console.log(attributes, "attributes", children, "children", leaf, "lll");
     if (leaf.bold) {
       children = <strong>{children}</strong>;
     }
