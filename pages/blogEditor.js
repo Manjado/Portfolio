@@ -8,17 +8,19 @@ import { Router } from "../routes";
 
 class BlogEditor extends React.Component {
   state = {
-    isSaving: false
+    isSaving: false,
+    lockId: Math.floor(1000 + Math.random() * 9000)
   };
   saveBlog = (story, { title, subtitle }) => {
     //console.log(story, "STORY", title, "titile", subtitle, "sub");
+    const { lockId } = this.state;
     const blog = {};
     blog.title = title;
     blog.subTitle = subtitle;
     blog.story = story;
 
     this.setState({ isSaving: true });
-    createBlog(blog)
+    createBlog(blog, lockId)
       .then(createdBlog => {
         this.setState({ isSaving: false });
         Router.pushRoute(`/blogs/${createdBlog._id}/edit`);
