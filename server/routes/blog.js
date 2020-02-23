@@ -14,4 +14,11 @@ router.post(
 
 router.get("/:id", blogCtr.getBlogById);
 
+router.patch(
+  "/:id",
+  authService.checkJWT,
+  authService.checkRole("siteOwner"),
+  blogCtr.updateBlog
+);
+
 module.exports = router;
