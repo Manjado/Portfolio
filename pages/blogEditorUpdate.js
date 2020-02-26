@@ -3,7 +3,7 @@ import BaseLayout from "../components/layouts/BaseLayout";
 import BasePage from "../components/BasePage";
 import withAuth from "../components/hoc/withAuth";
 import SlateEditor from "../components/slate-editor/Editor";
-import { getBlogbyId } from "../actions";
+import { getBlogbyId, updateBlog } from "../actions";
 
 class BlogEditor extends React.Component {
   static async getInitialProps({ query }) {
@@ -21,6 +21,24 @@ class BlogEditor extends React.Component {
     isSaving: false
   };
 
+  updateBlog = (story, { title, subtitle }) => {
+    const { blog } = this.props;
+    const updatedBlog = {};
+    updatedBlog.title = title;
+    updatedBlog.subTitle = subtitle;
+    updatedBlog.story = story;
+    console.log(updateBlog, "blog");
+    this.setState({ isSaving: true });
+    updateBlog(updatedBlog, blog._id)
+      .then(updatedBlog => {
+        this.setState({ isSaving: false });
+      })
+      .catch(err => {
+        this.setState({ isSaving: false });
+        console.error(err || "server error");
+      });
+  };
+
   render() {
     const { blog } = this.props;
     console.log("BLOG", blog);
@@ -31,7 +49,7 @@ class BlogEditor extends React.Component {
           <SlateEditor
             initialValue={blog.story}
             isLoading={isSaving}
-            save={() => console.log("here should be update")}
+            save={this.updateBlog}
           />
         </BasePage>
       </BaseLayout>

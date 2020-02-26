@@ -95,6 +95,17 @@ const SlateEditor = props => {
     !isLoading && save(text, headingValues);
   };
 
+  const onKeyDown = (event, change, next) => {
+    const { isLoading } = props;
+
+    if (!isLoading && event.which === 83 && (event.ctrlKey || event.metaKey)) {
+      event.prevenDefault();
+      this.save();
+      return;
+    }
+    next();
+  };
+
   return (
     <Slate editor={editor} value={value} onChange={value => setValue(value)}>
       <ControlMenu save={save} isLoading={props.isLoading}></ControlMenu>

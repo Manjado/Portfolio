@@ -74,6 +74,13 @@ export const createBlog = (blogData, lockId) => {
     .catch(error => rejectPromis(error));
 };
 
+export const updateBlog = (blogData, blogId) => {
+  return axiosInstance
+    .patch(`/blogs/${blogId}`, blogData, setAuthHeader())
+    .then(response => response.data)
+    .catch(error => rejectPromis(error));
+};
+
 export const getBlogbyId = blogId => {
   return axiosInstance.get(`/blogs/${blogId}`).then(response => response.data);
 };
