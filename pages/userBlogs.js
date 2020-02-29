@@ -4,9 +4,24 @@ import BasePage from "../components/BasePage";
 import { Container, Row, Col } from "reactstrap";
 
 import withAuth from "../components/hoc/withAuth";
+import { getUserBlog } from "../actions";
 
 class UserBlogs extends React.Component {
+  static async getInitialProps({ req }) {
+    let blogs = {};
+
+    try {
+      blogs = await getUserBlog(req);
+    } catch (err) {
+      console.error(err);
+    }
+
+    return { blogs };
+  }
+
   render() {
+    const { blogs } = this.props;
+    console.log(blogs, "blogs");
     return (
       <BaseLayout {...this.props.auth} headerType={"landing"}>
         <div

@@ -41,6 +41,24 @@ exports.getBlogById = (req, res) => {
   });
 };
 
+exports.getUserBlogs = (req, res) => {
+  const userId = req.user.sub;
+  console.log(userId, "ID_lll");
+  Blog.find(
+    {
+      userId
+    },
+    function(err, userBlogs) {
+      console.log(userBlogs, "USERTOP");
+      if (err) {
+        return res.status(422).send(err);
+      }
+      console.log(userBlogs, "USER");
+      return res.json(userBlogs);
+    }
+  );
+};
+
 exports.updateBlog = (req, res) => {
   const blogId = req.params.id;
   const blogData = req.body;
