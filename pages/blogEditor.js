@@ -5,6 +5,7 @@ import withAuth from "../components/hoc/withAuth";
 import SlateEditor from "../components/slate-editor/Editor";
 import { createBlog } from "../actions";
 import { Router } from "../routes";
+import { toast } from "react-toastify";
 
 class BlogEditor extends React.Component {
   state = {
@@ -23,9 +24,15 @@ class BlogEditor extends React.Component {
     createBlog(blog, lockId)
       .then(createdBlog => {
         this.setState({ isSaving: false });
+        toast.success("Blog Save Succesly!");
         Router.pushRoute(`/blogs/${createdBlog._id}/edit`);
       })
-      .catch(err => console.log(err || "server error"));
+      .catch(err => {
+        console.log(err || "server error");
+        toast.error(
+          "Unexpected Error, Copy your progress and refresch browser"
+        );
+      });
   };
   render() {
     const { isSaving } = this.state;

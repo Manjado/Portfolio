@@ -1,12 +1,14 @@
-import React from 'react';
-import App, { Container } from 'next/app';
-import auth0 from '../services/auth0';
+import React from "react";
+import App, { Container } from "next/app";
+import auth0 from "../services/auth0";
+import { ToastContainer } from "react-toastify";
 
 // Stylings
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/main.scss';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/main.scss";
+import "react-toastify/dist/ReactToastify.min.css";
 
-const namespace = 'http://localhost:3000';
+const namespace = "http://localhost:3000";
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
@@ -18,7 +20,7 @@ export default class MyApp extends App {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
-    const isSiteOwner = user && user[namespace + '/role'] === 'siteOwner';
+    const isSiteOwner = user && user[namespace + "/role"] === "siteOwner";
 
     // let isAuthenticated = false;
     // if (user) {
@@ -35,6 +37,7 @@ export default class MyApp extends App {
 
     return (
       <Container>
+        <ToastContainer />
         <Component {...pageProps} auth={auth} />
       </Container>
     );

@@ -125,7 +125,7 @@ const SlateEditor = props => {
               return toggleFormat(editor, "underline");
           }
         }}
-        onKeyDown={(event, change, next) => onKeyDown(event, change, next)}
+        onKeyDown={onKeyDown}
       />
     </Slate>
   );

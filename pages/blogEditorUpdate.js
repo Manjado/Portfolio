@@ -3,6 +3,8 @@ import BaseLayout from "../components/layouts/BaseLayout";
 import BasePage from "../components/BasePage";
 import withAuth from "../components/hoc/withAuth";
 import SlateEditor from "../components/slate-editor/Editor";
+import { toast } from "react-toastify";
+
 import { getBlogbyId, updateBlog } from "../actions";
 
 class BlogEditor extends React.Component {
@@ -31,11 +33,16 @@ class BlogEditor extends React.Component {
     this.setState({ isSaving: true });
     updateBlog(updatedBlog, blog._id)
       .then(updatedBlog => {
+        toast.success("Blog Save Succesly!");
         this.setState({ isSaving: false });
       })
       .catch(err => {
         this.setState({ isSaving: false });
-        console.error(err || "server error");
+        const message = err || "server error";
+        toast.error(
+          "Unexpected Error, Copy your progress and refresch browser"
+        );
+        console.error(message);
       });
   };
 
