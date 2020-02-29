@@ -96,14 +96,15 @@ const SlateEditor = props => {
   };
 
   const onKeyDown = (event, change, next) => {
+    console.log(event, "e", change, "ch", next, "next");
     const { isLoading } = props;
 
     if (!isLoading && event.which === 83 && (event.ctrlKey || event.metaKey)) {
-      event.prevenDefault();
-      this.save();
+      event.preventDefault();
+      save();
       return;
     }
-    next();
+    //next();
   };
 
   return (
@@ -124,6 +125,7 @@ const SlateEditor = props => {
               return toggleFormat(editor, "underline");
           }
         }}
+        onKeyDown={(event, change, next) => onKeyDown(event, change, next)}
       />
     </Slate>
   );
