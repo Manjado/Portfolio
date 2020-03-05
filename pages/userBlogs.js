@@ -4,6 +4,7 @@ import BasePage from "../components/BasePage";
 import { Container, Row, Col } from "reactstrap";
 
 import withAuth from "../components/hoc/withAuth";
+import { Link } from "../routes";
 import { getUserBlog } from "../actions";
 
 class UserBlogs extends React.Component {
@@ -19,9 +20,35 @@ class UserBlogs extends React.Component {
     return { blogs };
   }
 
+  separateBlogs(blogs) {
+    const published = [];
+    const drafts = [];
+
+    blogs.forEach(blog => {
+      blog.status === "draft" ? drafts.push(blog) : published.push(blog);
+    });
+
+    return { published, drafts };
+  }
+
+  renderBlogs(blogs) {
+    return (
+      <ul className="user-blogs-list">
+        {blogs.map((blog, index) => (
+          <li key={index}>
+            <Link route={`/blogs/${blog._id}/edit`}>
+              <a>{blog.title}</a>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   render() {
     const { blogs } = this.props;
-    console.log(blogs, "blogs");
+    const { published, drafts } = this.separateBlogs(blogs);
+    console.log(published, "P", drafts, "dra");
     return (
       <BaseLayout {...this.props.auth} headerType={"landing"}>
         <div
@@ -43,10 +70,12 @@ class UserBlogs extends React.Component {
         <BasePage className="blog-user-page">
           <Row>
             <Col md="6" className="mx-auto text-center">
-              Published Blogs
+              <h2 className="blog-status-title">Published Blogs</h2>
+              {this.renderBlogs(published)}
             </Col>
             <Col md="6" className="mx-auto text-center">
-              Draft Blogs
+              <h2 className="blog-status-title">Draft Blogs</h2>
+              {this.renderBlogs(drafts)}
             </Col>
           </Row>
         </BasePage>
