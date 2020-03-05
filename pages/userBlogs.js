@@ -2,6 +2,7 @@ import React from "react";
 import BaseLayout from "../components/layouts/BaseLayout";
 import BasePage from "../components/BasePage";
 import { Container, Row, Col } from "reactstrap";
+import PortButtonDropdown from "../components/ButtonDropdown";
 
 import withAuth from "../components/hoc/withAuth";
 import { Link } from "../routes";
@@ -39,6 +40,7 @@ class UserBlogs extends React.Component {
             <Link route={`/blogs/${blog._id}/edit`}>
               <a>{blog.title}</a>
             </Link>
+            <PortButtonDropdown />
           </li>
         ))}
       </ul>
