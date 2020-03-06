@@ -1,4 +1,5 @@
 const Blog = require("../models/blog");
+const slugify = require("slugify");
 const AsyncLock = require("async-lock");
 const lock = new AsyncLock();
 
@@ -66,6 +67,14 @@ exports.updateBlog = (req, res) => {
   Blog.findById(blogId, (err, foundBlog) => {
     if (err) {
       return res.status(422).send(err);
+    }
+
+    if (blogData.status && blogData.status === "published" && !foundBlog.slug) {
+      foundBlog.slug = slugify(foundBlog.title, {
+        replacement: "-",
+        remove: null,
+        lower: true
+      });
     }
     foundBlog.set(blogData);
     foundBlog.updatedAt = new Date();

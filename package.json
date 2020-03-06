@@ -44,6 +44,7 @@
     "slate-history": "^0.57.1",
     "slate-html-serializer": "^0.8.11",
     "slate-hyperscript": "^0.57.1",
-    "slate-react": "^0.57.1"
+    "slate-react": "^0.57.1",
+    "slugify": "^1.4.0"
   }
 }
