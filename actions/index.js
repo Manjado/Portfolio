@@ -2,7 +2,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import { getCookieFromReq } from "../helpers/utils";
-import { response } from "express";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api/v1",
