@@ -52,6 +52,18 @@ exports.getBlogs = (req, res) => {
   });
 };
 
+exports.getBlogBySlug = (req, res) => {
+  const slug = req.params.slug;
+  console.log(slug, "SLUG");
+  Blog.findOne({ slug }, function(err, foundBlog) {
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    return res.json(foundBlog);
+  });
+};
+
 exports.getUserBlogs = (req, res) => {
   const userId = req.user.sub;
   console.log(userId, "ID_lll");

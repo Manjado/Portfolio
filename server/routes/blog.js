@@ -23,6 +23,8 @@ router.get(
 
 router.get("/:id", blogCtr.getBlogById);
 
+router.get("/s/:slug", blogCtr.getBlogBySlug);
+
 router.patch(
   "/:id",
   authService.checkJWT,
