@@ -66,7 +66,9 @@ export const deletePortfolio = portfolioId => {
 };
 
 // ------ BLOG ACTIONS -------
-
+export const getBlogs = async req => {
+  return await axiosInstance.get("/blogs").then(response => response.data);
+};
 export const getUserBlog = async req => {
   const url = "/blogs/me";
   return await axiosInstance
