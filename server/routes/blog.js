@@ -21,11 +21,20 @@ router.get(
 
 router.get("/:id", blogCtr.getBlogById);
 
+router.get("", blogCtr.getBlogs);
+
 router.patch(
   "/:id",
   authService.checkJWT,
   authService.checkRole("siteOwner"),
   blogCtr.updateBlog
+);
+
+router.delete(
+  "/:id",
+  authService.checkJWT,
+  authService.checkRole("siteOwner"),
+  blogCtr.deleteBlog
 );
 
 module.exports = router;

@@ -3,6 +3,16 @@ const slugify = require("slugify");
 const AsyncLock = require("async-lock");
 const lock = new AsyncLock();
 
+exports.getBlogs = (req, res) => {
+  Blog.find({ status: "published" }, function(err, publishedBlogs) {
+    if (err) {
+      return res.status(422).send(err);
+    }
+
+    return res.json({ publishedBlogs });
+  });
+};
+
 exports.createBlog = (req, res) => {
   const lockId = req.query.lockId;
   if (!lock.isBusy(lockId)) {
@@ -84,5 +94,16 @@ exports.updateBlog = (req, res) => {
       }
       return res.json(saveBlog);
     });
+  });
+};
+
+exports.deleteBlog = (req, res) => {
+  const blogId = req.params.id;
+
+  Blog.deleteOne({ _id: blogId }, function(err) {
+    if (err) {
+      return res.status(422).send(err);
+    }
+    res.json({ status: "deleted" });
   });
 };
