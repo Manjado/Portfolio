@@ -95,5 +95,6 @@ export const getBlogbyId = blogId => {
 export const deleteBlog = blogId => {
   return axiosInstance
     .delete(`/blogs/${blogId}`, setAuthHeader())
-    .then(response => response.data);
+    .then(response => response.data)
+    .catch(error => rejectPromis(error));
 };

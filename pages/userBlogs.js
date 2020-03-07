@@ -6,7 +6,7 @@ import PortButtonDropdown from "../components/ButtonDropdown";
 
 import withAuth from "../components/hoc/withAuth";
 import { Link, Router } from "../routes";
-import { getUserBlog, updateBlog } from "../actions";
+import { getUserBlog, updateBlog, deleteBlog } from "../actions";
 
 class UserBlogs extends React.Component {
   static async getInitialProps({ req }) {
@@ -31,8 +31,20 @@ class UserBlogs extends React.Component {
       });
   }
 
-  deleteBlog() {
-    alert("Deliting Blog");
+  deleteBlogWarning(blogId) {
+    const res = confirm("Are you sure you want to delete this blog post?");
+
+    if (res) {
+      this.deleteBlog(blogId);
+    }
+  }
+
+  deleteBlog(blogId) {
+    deleteBlog(blogId)
+      .then(status => {
+        Router.pushRoute("/userBlogs");
+      })
+      .catch(err => console.error(err.message));
   }
 
   separateBlogs(blogs) {
@@ -62,7 +74,10 @@ class UserBlogs extends React.Component {
           onClick: () => this.changeBlogStatus(status.value, blog._id)
         }
       },
-      { text: "Delete", handlers: { onClick: () => this.deleteBlog() } }
+      {
+        text: "Delete",
+        handlers: { onClick: () => this.deleteBlogWarning(blog._id) }
+      }
     ];
   };
 
