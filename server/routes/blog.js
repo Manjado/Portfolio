@@ -12,6 +12,8 @@ router.post(
   blogCtr.createBlog
 );
 
+router.get("", blogCtr.getBlogs);
+
 router.get(
   "/me",
   authService.checkJWT,
@@ -20,8 +22,6 @@ router.get(
 );
 
 router.get("/:id", blogCtr.getBlogById);
-
-router.get("", blogCtr.getBlogs);
 
 router.patch(
   "/:id",

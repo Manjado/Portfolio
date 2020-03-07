@@ -17,7 +17,7 @@ class UserBlogs extends React.Component {
     } catch (err) {
       console.error(err);
     }
-
+    console.log(blogs, "BLOGS");
     return { blogs };
   }
 

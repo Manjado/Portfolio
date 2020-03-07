@@ -2,6 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import { getCookieFromReq } from "../helpers/utils";
+import { response } from "express";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api/v1",
@@ -90,4 +91,10 @@ export const updateBlog = (blogData, blogId) => {
 
 export const getBlogbyId = blogId => {
   return axiosInstance.get(`/blogs/${blogId}`).then(response => response.data);
+};
+
+export const deleteBlog = blogId => {
+  return axiosInstance
+    .delete(`/blogs/${blogId}`, setAuthHeader())
+    .then(response => response.data);
 };
