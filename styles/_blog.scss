@@ -159,7 +159,8 @@
 
 // BLOG EDITOR PAGE
 
-.blog-editor-page {
+.blog-editor-page,
+.blog-detail-page {
   @media only screen and (min-width: 991px) {
     .editor-wrapper {
       padding: 0 180px;
