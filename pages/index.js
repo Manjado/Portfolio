@@ -1,29 +1,54 @@
-import React from 'react';
-import Typed from 'react-typed';
+import React from "react";
+import Typed from "react-typed";
 
-import BaseLayout from '../components/layouts/BaseLayout';
+import BaseLayout from "../components/layouts/BaseLayout";
 
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col } from "reactstrap";
 
 class Index extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isFlipping: false
+    };
+
     this.roles = [
-      'Developer',
-      'Tech Lover',
-      'Team Player',
-      'Course Creater',
-      'React.js',
-      'TypeScript'
+      "Developer",
+      "Tech Lover",
+      "Team Player",
+      "Course Creater",
+      "React.js",
+      "TypeScript"
     ];
+  }
+
+  componentDidMount() {
+    this.animateCard();
+  }
+
+  componentWillUnmount() {
+    this.cardAnimationInterval && clearInterval(this.cardAnimationInterval);
+  }
+
+  animateCard() {
+    this.cardAnimationInterval = setInterval(() => {
+      this.setState({
+        isFlipping: !this.state.isFlipping
+      });
+    }, 6000);
   }
 
   render() {
     const { isAuthenticated, user } = this.props.auth;
+    const { isFlipping } = this.state;
 
     return (
-      <BaseLayout className="cover" {...this.props.auth} headerType="index">
+      <BaseLayout
+        className={`cover ${isFlipping ? "cover-1" : "cover-0"}`}
+        {...this.props.auth}
+        headerType="index"
+      >
         <div className="main-section">
           <div className="background-image">
             <img src="/static/images/background-index.png" />
@@ -32,8 +57,8 @@ class Index extends React.Component {
             <Row>
               <Col md="6">
                 <div className="hero-section">
-                  <div className={`flipper`}>
-                    <div className="back">
+                  <div className={`flipper ${isFlipping ? "isFlipping" : ""}`}>
+                    <div className="front">
                       <div className="hero-section-content">
                         <h2> Frontend Developer </h2>
                         <div className="hero-section-content-intro">
@@ -45,6 +70,22 @@ class Index extends React.Component {
                         src="/static/images/section-1.png"
                       />
                       <div className="shadow-custom">
+                        <div className="shadow-inner"> </div>
+                      </div>
+                    </div>
+                    <div className="back">
+                      <div className="hero-section-content">
+                        <h2> Get Your Project Done </h2>
+                        <div className="hero-section-content-intro">
+                          Profesional and top quality service in web
+                          development.
+                        </div>
+                      </div>
+                      <img
+                        className="image"
+                        src="/static/images/section-2.png"
+                      />
+                      <div className="shadow-custom shadow-custom-2">
                         <div className="shadow-inner"> </div>
                       </div>
                     </div>
