@@ -45,7 +45,8 @@ class Index extends React.Component {
 
     return (
       <BaseLayout
-        className={`cover ${isFlipping ? "cover-1" : "cover-0"}`}
+        // className={`cover ${isFlipping ? "cover-1" : "cover-0"}`}
+        className={`cover `}
         {...this.props.auth}
         headerType="index"
       >
@@ -83,9 +84,10 @@ class Index extends React.Component {
                       </div>
                       <img
                         className="image"
-                        src="/static/images/section-2.png"
+                        src="/static/images/section-1.png"
                       />
-                      <div className="shadow-custom shadow-custom-2">
+                      {/* <div className="shadow-custom shadow-custom-2"> */}
+                      <div className="shadow-custom">
                         <div className="shadow-inner"> </div>
                       </div>
                     </div>

@@ -1,5 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
+import React from "react";
+import Link from "next/link";
+import ActiveLink from "../ActiveLink";
 import {
   Collapse,
   Navbar,
@@ -8,18 +9,18 @@ import {
   Nav,
   NavItem,
   NavLink
-} from 'reactstrap';
-import { Link as NextLink } from '../../routes';
+} from "reactstrap";
+import { Link as NextLink } from "../../routes";
 
-import auth0 from '../../services/auth0';
+import auth0 from "../../services/auth0";
 
 const BsNavLink = props => {
   const { route, title } = props;
 
   return (
-    <Link href={route}>
+    <ActiveLink activeClassName="active" route={route}>
       <a className="nav-link port-navbar-link"> {title} </a>
-    </Link>
+    </ActiveLink>
   );
 };
 
