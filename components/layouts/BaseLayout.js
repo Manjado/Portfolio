@@ -8,7 +8,8 @@ const BaseLayout = props => {
     children,
     isAuthenticated,
     user,
-    headerType = "default"
+    headerType = "default",
+    isSiteOwner
   } = props;
 
   return (
@@ -31,6 +32,7 @@ const BaseLayout = props => {
             className={`port-nav-${headerType}`}
             isAuthenticated={isAuthenticated}
             user={user}
+            isSiteOwner={isSiteOwner}
           />
         }
         <main className={`cover ${className}`}>

@@ -8,7 +8,11 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Dropdown
 } from "reactstrap";
 import { Link as NextLink } from "../../routes";
 
@@ -46,7 +50,8 @@ export default class Header extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      dropdownOpen: false
     };
   }
   toggle() {
@@ -54,7 +59,47 @@ export default class Header extends React.Component {
       isOpen: !this.state.isOpen
     });
   }
+  toggleDropdown = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  };
 
+  renderBlogMenu() {
+    const { isSiteOwner } = this.props;
+
+    if (isSiteOwner) {
+      return (
+        <Dropdown
+          nav
+          isOpen={this.state.dropdownOpen}
+          toggle={this.toggleDropdown}
+          className="port-navbar-link"
+        >
+          <DropdownToggle nav caret>
+            Blog
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem>
+              <BsNavLink route="/blogs" title="Blogs" />
+            </DropdownItem>
+            <DropdownItem>
+              <BsNavLink route="/blogs/new" title="Create a Blogs" />
+            </DropdownItem>
+            <DropdownItem>
+              <BsNavLink route="/blogs/dashboard" title="Blogs Dashboard" />
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      );
+    }
+
+    return (
+      <NavItem className="port-navbar-item">
+        <BsNavLink route="/blogs" title="Blog" />
+      </NavItem>
+    );
+  }
   render() {
     const { isAuthenticated, user, className } = this.props;
 
@@ -81,9 +126,7 @@ export default class Header extends React.Component {
               <NavItem className="port-navbar-item">
                 <BsNavLink route="/portfolios" title="Portfolio" />
               </NavItem>
-              <NavItem className="port-navbar-item">
-                <BsNavLink route="/blogs" title="Blog" />
-              </NavItem>
+              {this.renderBlogMenu()}
               <NavItem className="port-navbar-item">
                 <BsNavLink route="/cv" title="Cv" />
               </NavItem>
