@@ -20,10 +20,11 @@ import auth0 from "../../services/auth0";
 
 const BsNavLink = props => {
   const { route, title } = props;
+  const className = props.className || "";
 
   return (
     <ActiveLink activeClassName="active" route={route}>
-      <a className="nav-link port-navbar-link"> {title} </a>
+      <a className={`nav-link port-navbar-link ${className}`}> {title} </a>
     </ActiveLink>
   );
 };
@@ -74,20 +75,32 @@ export default class Header extends React.Component {
           nav
           isOpen={this.state.dropdownOpen}
           toggle={this.toggleDropdown}
-          className="port-navbar-link"
+          className="port-navbar-link port-dropdown-menu"
         >
-          <DropdownToggle nav caret>
+          <DropdownToggle className="port-dropdown-toggle" nav caret>
             Blog
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem>
-              <BsNavLink route="/blogs" title="Blogs" />
+              <BsNavLink
+                className="port-dropdown-item"
+                route="/blogs"
+                title="Blogs"
+              />
             </DropdownItem>
             <DropdownItem>
-              <BsNavLink route="/blogs/new" title="Create a Blogs" />
+              <BsNavLink
+                className="port-dropdown-item"
+                route="/blogs/new"
+                title="Create a Blogs"
+              />
             </DropdownItem>
             <DropdownItem>
-              <BsNavLink route="/blogs/dashboard" title="Blogs Dashboard" />
+              <BsNavLink
+                className="port-dropdown-item"
+                route="/blogs/dashboard"
+                title="Blogs Dashboard"
+              />
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -102,11 +115,13 @@ export default class Header extends React.Component {
   }
   render() {
     const { isAuthenticated, user, className } = this.props;
+    const { isOpen } = this.state;
 
+    const menuOpenClass = isOpen ? "menu-open" : "menu-close";
     return (
       <div>
         <Navbar
-          className={`port-navbar port-nav-base absolute ${className}`}
+          className={`port-navbar port-nav-base absolute ${className} ${menuOpenClass}`}
           color="transparent"
           dark
           expand="md"
