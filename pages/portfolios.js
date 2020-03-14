@@ -83,11 +83,16 @@ class Portfolios extends React.Component {
     const { isAuthenticated, isSiteOwner } = this.props.auth;
 
     return (
-      <BaseLayout {...this.props.auth}>
+      <BaseLayout
+        canonical="/portfolios" //e.g info to se where is proper content.
+        //in the case of content duplication
+        title="Michał Alchimowicz - Lear About my Experience"
+        {...this.props.auth}
+      >
         <BasePage className="portfolio-page" title="Portfolios">
           {isAuthenticated && isSiteOwner && (
             <Button
-              onClick={() => Router.pushRoute("/portfolioNew")}
+              onClick={() => Router.pushRoute("/portfolios/new")}
               color="success"
               className="create-port-btn"
             >

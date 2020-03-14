@@ -49,6 +49,7 @@ class Index extends React.Component {
         className={`cover `}
         {...this.props.auth}
         headerType="index"
+        title="Michał Alchimowicz - Portfolio"
       >
         <div className="main-section">
           <div className="background-image">
@@ -67,6 +68,7 @@ class Index extends React.Component {
                         </div>
                       </div>
                       <img
+                        alt="Guy programming welcome picture"
                         className="image"
                         src="/static/images/section-1.png"
                       />
@@ -83,6 +85,7 @@ class Index extends React.Component {
                         </div>
                       </div>
                       <img
+                        alt="Guy programming welcome picture"
                         className="image"
                         src="/static/images/section-1.png"
                       />
@@ -120,7 +123,7 @@ class Index extends React.Component {
                 />
 
                 <div className="hero-welcome-bio">
-                  <h1>Let's take a look on my work.</h1>
+                  <h2>Let's take a look on my work.</h2>
                 </div>
               </Col>
             </Row>
