@@ -23,7 +23,7 @@
     "emotion": "^10.0.27",
     "escape-html": "^1.0.3",
     "express": "^4.16.4",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "formik": "^2.1.1",
     "js-cookie": "^2.2.1",
     "jsdom": "^16.2.0",
